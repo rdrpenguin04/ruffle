@@ -2275,7 +2275,7 @@ impl<'a, 'gc, 'gc_context> Activation<'a, 'gc, 'gc_context> {
         });
         let type_object = found?.coerce_to_object(self)?;
 
-        let is_instance_of = value.is_instance_of(self, type_object, true)?;
+        let is_instance_of = value.is_of_type(type_object)?;
         self.context.avm2.push(is_instance_of);
 
         Ok(FrameControl::Continue)
@@ -2285,7 +2285,7 @@ impl<'a, 'gc, 'gc_context> Activation<'a, 'gc, 'gc_context> {
         let type_object = self.context.avm2.pop().coerce_to_object(self)?;
         let value = self.context.avm2.pop().coerce_to_object(self)?;
 
-        let is_instance_of = value.is_instance_of(self, type_object, true)?;
+        let is_instance_of = value.is_of_type(type_object)?;
 
         self.context.avm2.push(is_instance_of);
 
@@ -2321,9 +2321,7 @@ impl<'a, 'gc, 'gc_context> Activation<'a, 'gc, 'gc_context> {
             return Err("TypeError: The right-hand side of operator must be a class.".into());
         }
 
-        let is_instance_of = value.is_instance_of(self, class, true)?;
-
-        if is_instance_of {
+        if value.is_of_type(class)? {
             self.context.avm2.push(value);
         } else {
             self.context.avm2.push(Value::Null);
@@ -2340,9 +2338,7 @@ impl<'a, 'gc, 'gc_context> Activation<'a, 'gc, 'gc_context> {
             return Err("TypeError: The right-hand side of operator must be a class.".into());
         }
 
-        let is_instance_of = value.is_instance_of(self, class, true)?;
-
-        if is_instance_of {
+        if value.is_of_type(class)? {
             self.context.avm2.push(value);
         } else {
             self.context.avm2.push(Value::Null);
@@ -2356,7 +2352,7 @@ impl<'a, 'gc, 'gc_context> Activation<'a, 'gc, 'gc_context> {
         let value = self.context.avm2.pop().coerce_to_object(self).ok();
 
         if let Some(value) = value {
-            let is_instance_of = value.is_instance_of(self, type_object, false)?;
+            let is_instance_of = value.is_instance_of(self, type_object)?;
 
             self.context.avm2.push(is_instance_of);
         } else {
