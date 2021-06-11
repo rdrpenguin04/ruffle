@@ -259,8 +259,10 @@ impl<'a> Reader<'a> {
 
         if flags & 0x08 != 0 {
             let num_optional_params = self.read_u30()? as usize;
+            let start = params.len() - num_optional_params;
+            let end = params.len();
             #[allow(clippy::needless_range_loop)]
-            for i in 0..num_optional_params {
+            for i in start..end {
                 params[i].default_value = Some(self.read_constant_value()?);
             }
         }
