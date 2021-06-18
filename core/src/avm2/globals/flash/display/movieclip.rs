@@ -160,7 +160,7 @@ fn labels_for_scene<'gc>(
         length: scene_length,
     } = scene;
     let mut frame_labels = Vec::new();
-    let frame_label_constr = activation.context.avm2.constructors().framelabel;
+    let frame_label_constr = activation.context.avm2.classes().framelabel;
 
     for (name, frame) in mc.labels_in_range(*scene_start, scene_start + scene_length) {
         let name: Value<'gc> = AvmString::new(activation.context.gc_context, name).into();
@@ -215,7 +215,7 @@ pub fn current_scene<'gc>(
             length: mc.total_frames(),
         });
         let (scene_name, scene_length, scene_labels) = labels_for_scene(activation, mc, &scene)?;
-        let scene_constr = activation.context.avm2.constructors().scene;
+        let scene_constr = activation.context.avm2.classes().scene;
         let args = [
             AvmString::new(activation.context.gc_context, scene_name).into(),
             scene_labels.into(),
@@ -254,7 +254,7 @@ pub fn scenes<'gc>(
         for scene in mc_scenes {
             let (scene_name, scene_length, scene_labels) =
                 labels_for_scene(activation, mc, &scene)?;
-            let scene_constr = activation.context.avm2.constructors().scene;
+            let scene_constr = activation.context.avm2.classes().scene;
             let args = [
                 AvmString::new(activation.context.gc_context, scene_name).into(),
                 scene_labels.into(),
