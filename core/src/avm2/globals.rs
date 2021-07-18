@@ -112,7 +112,6 @@ pub struct SystemPrototypes<'gc> {
     pub sprite: Object<'gc>,
     pub simplebutton: Object<'gc>,
     pub regexp: Object<'gc>,
-    pub capabilities: Object<'gc>,
 }
 
 impl<'gc> SystemPrototypes<'gc> {
@@ -161,7 +160,6 @@ impl<'gc> SystemPrototypes<'gc> {
             sprite: empty,
             simplebutton: empty,
             regexp: empty,
-            capabilities: empty,
         }
     }
 }
@@ -201,7 +199,6 @@ pub struct SystemClasses<'gc> {
     pub sprite: Object<'gc>,
     pub simplebutton: Object<'gc>,
     pub regexp: Object<'gc>,
-    pub capabilities: Object<'gc>,
 }
 
 impl<'gc> SystemClasses<'gc> {
@@ -250,7 +247,6 @@ impl<'gc> SystemClasses<'gc> {
             sprite: empty,
             simplebutton: empty,
             regexp: empty,
-            capabilities: empty,
         }
     }
 }
@@ -515,8 +511,7 @@ pub fn load_player_globals<'gc>(
         domain,
         script
     );
-    avm2_system_class!(
-        capabilities,
+    class(
         activation,
         flash::system::capabilities::create_class(mc),
         domain,
